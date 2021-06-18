@@ -37,3 +37,16 @@ var baseMaps = {
     "Outdoors": outdoors_map
 };
 
+// Create overlay object to hold our overlay layer
+  var overlayMaps = {
+    Earthquakes: earthquakes,
+    FaultLines: faultLine
+  };
+
+  // Create Map, Passing In satelliteMap & earthquakes as Default Layers to Display on Load
+var myMap = L.map("map", {
+    center: [37.09, -95.71],
+    zoom: 2,
+    layers: [satellite_map, earthquakes]
+});
+
