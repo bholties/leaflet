@@ -55,6 +55,7 @@ L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 
 // Retrieve earthquakesURL (USGS Earthquakes GeoJSON Data) with D3
 d3.json(earthquakesURL, function(earthquakeData) {
+
     // Function to Determine Size of Marker Based on the Magnitude of the Earthquake
     function markerSize(magnitude) {
         if (magnitude === 0) {
@@ -62,3 +63,38 @@ d3.json(earthquakesURL, function(earthquakeData) {
         }
         return magnitude * 3;
     }
+
+// Define function to set the circle color based on the magnitude
+function circleColor(magnitude) {
+    if (magnitude < 1) {
+      return "#ccff33"
+    }
+    else if (magnitude < 2) {
+      return "#ffff33"
+    }
+    else if (magnitude < 3) {
+      return "#ffcc33"
+    }
+    else if (magnitude < 4) {
+      return "#ff9933"
+    }
+    else if (magnitude < 5) {
+      return "#ff6633"
+    }
+    else {
+      return "#ff3333"
+    }
+  }
+
+// Determine Style of Marker Based on the Magnitude of the Earthquake
+function styleInfo(feature) {
+    return {
+      opacity: 1,
+      fillOpacity: 1,
+      fillColor: chooseColor(feature.properties.mag),
+      color: "#000000",
+      radius: markerSize(feature.properties.mag),
+      stroke: true,
+      weight: 0.5
+    };  
+
