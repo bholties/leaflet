@@ -56,7 +56,7 @@ L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 // Retrieve earthquakesURL (USGS Earthquakes GeoJSON Data) with D3
 d3.json(earthquakesURL, function(earthquakeData) {
 
-    // Function to Determine Size of Marker Based on the Magnitude of the Earthquake
+// Function to Determine Size of Marker Based on the Magnitude of the Earthquake
     function markerSize(magnitude) {
         if (magnitude === 0) {
           return 1;
@@ -97,4 +97,28 @@ function styleInfo(feature) {
       stroke: true,
       weight: 0.5
     };  
+   
+    }
+// Add earthquakeData to earthquakes LayerGroups 
+}).addTo(earthquakes);
+// Add earthquakes Layer to the Map
+earthquakes.addTo(myMap);
 
+  // Set Up Legend
+  var legend = L.control({ position: "bottomright" });
+  legend.onAdd = function() {
+      var div = L.DomUtil.create("div", "info legend"), 
+      magnitudeLevels = [0, 1, 2, 3, 4, 5];
+
+      div.innerHTML += "<h3>Magnitude</h3>"
+
+      for (var i = 0; i < magnitudeLevels.length; i++) {
+          div.innerHTML +=
+              '<i style="background: ' + chooseColor(magnitudeLevels[i] + 1) + '"></i> ' +
+              magnitudeLevels[i] + (magnitudeLevels[i + 1] ? '&ndash;' + magnitudeLevels[i + 1] + '<br>' : '+');
+      }
+      return div;
+  };
+  // Add Legend to the Map
+  legend.addTo(myMap);
+});
